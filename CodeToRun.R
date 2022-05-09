@@ -15,7 +15,7 @@ cohortsToCreate <- CohortGenerator::createEmptyCohortDefinitionSet()
 # Fill the cohort set using  cohorts included in this 
 # package as an example
 # cohortJsonFiles <- list.files(path = system.file("testdata/name/cohorts", package = "CohortGenerator"), full.names = TRUE)
-cohortJsonFiles <- list.files(path = here::here("Cohorts"), full.names = TRUE)
+cohortJsonFiles <- list.files(path = here::here("cohorts"), full.names = TRUE)
   
 for (i in 1:length(cohortJsonFiles)) {
   cohortJsonFileName <- cohortJsonFiles[i]
