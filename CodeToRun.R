@@ -31,6 +31,9 @@ for (i in 1:length(cohortJsonFiles)) {
   cohortExpression <- CirceR::cohortExpressionFromJson(cohortJson)
   cohortSql <- CirceR::buildCohortQuery(cohortExpression, options = CirceR::createGenerateOptions(generateStats = TRUE))
   SqlRender::writeSql(sql = cohortSql, targetFile = paste0(cohortName, ".sql"))
+  #uncommenting the below two line fixes the problem
+   # cohortSql <- stringr::str_replace(cohortSql, "10000,0000", "10000.0000")
+   # cohortSql <- stringr::str_replace(cohortSql,"150000,0000", "10000.0000")
   cohortsToCreate <- rbind(cohortsToCreate, data.frame(cohortId = i,
                                                        cohortName = cohortName, 
                                                        sql = cohortSql,
