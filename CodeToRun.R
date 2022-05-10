@@ -1,3 +1,6 @@
+sessionInfo()
+Sys.setlocale("LC_ALL","English")
+
 renv::activate()
 renv::restore()
 
@@ -26,8 +29,8 @@ for (i in 1:length(cohortJsonFiles)) {
   # modify this to read your JSON/SQL files however you require
   cohortJson <- readChar(cohortJsonFileName, file.info(cohortJsonFileName)$size)
   cohortExpression <- CirceR::cohortExpressionFromJson(cohortJson)
-  cohortSql <- CirceR::buildCohortQuery(cohortExpression, options = CirceR::createGenerateOptions(generateStats = FALSE))
-  # cohortSql<-SqlRender::translate(cohortSql, targetDialect = "postgresql")
+  cohortSql <- CirceR::buildCohortQuery(cohortExpression, options = CirceR::createGenerateOptions(generateStats = TRUE))
+  SqlRender::writeSql(sql = cohortSql, targetFile = paste0(cohortName, ".sql"))
   cohortsToCreate <- rbind(cohortsToCreate, data.frame(cohortId = i,
                                                        cohortName = cohortName, 
                                                        sql = cohortSql,
@@ -50,4 +53,4 @@ cohortsGenerated <- CohortGenerator::generateCohortSet(connectionDetails = conne
                                                        cohortDatabaseSchema = "main",
                                                        cohortTableNames = cohortTableNames,
                                                        cohortDefinitionSet = cohortsToCreate)
-sessionInfo()
+# sessionInfo()
